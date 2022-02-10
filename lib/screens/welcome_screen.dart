@@ -1,6 +1,10 @@
+import 'package:baatchit/screens/login_screen.dart';
+import 'package:baatchit/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
+
 class WelcomeScreen extends StatefulWidget {
+  static const String id = 'welcome_screen';
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
@@ -20,9 +24,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  child: Image.asset('images/baatchit.jpg'),
-                  height: 75.0,
+                Hero(
+                  tag: 'logo',
+                  child: Container(
+                    child: Image.asset('images/baatchit.jpg'),
+                    height: 75.0,
+                  ),
                 ),
                 Text(
                   'BaatChit',
@@ -45,6 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: MaterialButton(
                   onPressed: () {
                     //Go to login screen.
+                    Navigator.pushNamed(context, LoginScreen.id);
                     print("Test");
                   },
                   minWidth: 200.0,
@@ -65,6 +73,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   onPressed: () {
                     //Go to registration screen.
                     print("Test2");
+                    Navigator.pushNamed(context, RegistrationScreen.id);
                   },
                   minWidth: 200.0,
                   height: 42.0,

@@ -17,12 +17,12 @@ class BaatChit extends StatelessWidget {
         ),
       ),
       // home: WelcomeScreen(),
-      initialRoute: '/',
+      initialRoute: WelcomeScreen.id,
       routes: {
-        '/': (context) => WelcomeScreen(),
-        '/login': (context) => LoginScreen(),
-        '/register': (context) => RegistrationScreen(),
-        '/chat': (context) => ChatScreen()
+        WelcomeScreen.id: (context) => WelcomeScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+        RegistrationScreen.id: (context) => RegistrationScreen(),
+        ChatScreen.id: (context) => ChatScreen()
       },
     );
   }
