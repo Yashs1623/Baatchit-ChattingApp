@@ -1,4 +1,4 @@
-import 'package:baatchit/components/RoundedButton.dart';
+import 'package:baatchit/components/rounded_button.dart';
 import 'package:baatchit/screens/login_screen.dart';
 import 'package:baatchit/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
@@ -68,10 +68,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 AnimatedTextKit(
                   totalRepeatCount: 1,
                   animatedTexts: [
-                    TypewriterAnimatedText('BaatChit',
-                        speed: Duration(milliseconds: 100),
-                        textStyle: TextStyle(
-                            fontSize: 50.0, fontWeight: FontWeight.w900)),
+                    TypewriterAnimatedText(
+                      'BaatChit',
+                      speed: Duration(milliseconds: 100),
+                      textStyle: TextStyle(
+                          fontSize: 50.0, fontWeight: FontWeight.w900),
+                    ),
                   ],
                 ),
               ],
