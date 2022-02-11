@@ -1,7 +1,8 @@
+import 'package:baatchit/components/RoundedButton.dart';
 import 'package:baatchit/screens/login_screen.dart';
 import 'package:baatchit/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -9,8 +10,41 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
-  
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation animation, colortweenanimation;
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      duration: Duration(seconds: 1),
+      vsync:
+          this, //ticker (this -> yehi same class k obj ko represent krta hai and wo ticker hai)
+      upperBound: 1,
+    );
+    animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    // colortweenanimation = ColorTween(begin: Colors.black, end: Colors.white).animate(controller);   --> another type of animation to change colors
+    controller.forward();
+
+    controller.addStatusListener((status) {
+      print(status);
+      //below code is of : if we want to loop animation
+      // if(status == AnimationStatus.completed)
+      // {
+      //   controller.reverse(from: 1.0);
+      // }
+      // else if(status==AnimationStatus.dismissed){
+      //   controller.forward();
+      // }
+    });
+
+    controller.addListener(() {
+      setState(() {});
+      // print(controller.value);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,60 +62,40 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/baatchit.jpg'),
-                    height: 75.0,
+                    height: 100.0 * animation.value,
                   ),
                 ),
-                Text(
-                  'BaatChit',
-                  style: TextStyle(
-                    fontSize: 48.0,
-                    fontWeight: FontWeight.w900,
-                  ),
+                AnimatedTextKit(
+                  totalRepeatCount: 1,
+                  animatedTexts: [
+                    TypewriterAnimatedText('BaatChit',
+                        speed: Duration(milliseconds: 100),
+                        textStyle: TextStyle(
+                            fontSize: 50.0, fontWeight: FontWeight.w900)),
+                  ],
                 ),
               ],
             ),
             SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to login screen.
-                    Navigator.pushNamed(context, LoginScreen.id);
-                    print("Test");
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                  ),
-                ),
-              ),
+            RoundedButton(
+              color: Colors.lightBlueAccent,
+              title: 'Log In',
+              onPressed: () {
+                //Go to login screen.
+                Navigator.pushNamed(context, LoginScreen.id);
+                print("Test");
+              },
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to registration screen.
-                    print("Test2");
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                  ),
-                ),
-              ),
+            RoundedButton(
+              color: Colors.blueAccent,
+              title: 'Register',
+              onPressed: () {
+                //Go to registration screen.
+                print("Test2");
+                Navigator.pushNamed(context, RegistrationScreen.id);
+              },
             ),
           ],
         ),
