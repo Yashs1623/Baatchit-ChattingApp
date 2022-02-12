@@ -58,7 +58,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             MessagesStream(),
             Container(
@@ -80,10 +80,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   TextButton(
                     onPressed: () {
+                      var createdAt = DateTime.now();
+                      print(createdAt);
                       messageTextController.clear();
                       _firestore.collection('messages').add({
                         'text': messageText,
                         'sender': loggedInUser.email,
+                        'createdAt':createdAt
                       });
                     },
                     child: Text(
@@ -105,14 +108,14 @@ class MessagesStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection("messages").snapshots(),
+      stream: _firestore.collection("messages").orderBy('createdAt', descending: true).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return CircularProgressIndicator(
             backgroundColor: Colors.lightBlueAccent,
           );
         }
-        final messages = snapshot.data!.docs.reversed;
+        final messages = snapshot.data!.docs;
         List<MessageContainer> messageContainers = [];
         for (var message in messages) {
           final messageText = (message.data() as dynamic)['text'];
@@ -120,9 +123,6 @@ class MessagesStream extends StatelessWidget {
 
           final currentUser = loggedInUser.email;
 
-          if (currentUser == messageSender) {
-            //The message is from the loggedIn user
-          }
 
           final messageContainer = MessageContainer(
               sender: messageSender,
