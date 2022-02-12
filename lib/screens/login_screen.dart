@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen>
                 RoundedButton(
                   color: Colors.lightBlueAccent,
                   title: 'Log In',
-                  onPressed: () {
+                  onPressed: () async{
                     setState(() {
                       controller.repeat(period: Duration(seconds: 2));
                       controller.addListener(() {
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen>
                       loading = true;
                     });
 
-                    final existingUser = _auth.signInWithEmailAndPassword(
+                    final existingUser = await _auth.signInWithEmailAndPassword(
                         email: email, password: password);
 
                     try {
